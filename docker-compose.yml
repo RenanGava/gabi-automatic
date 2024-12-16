@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    container_name: app-gabi
+    entrypoint: ["/bin/bash", "-c", "./.docker/config/entrypointPrisma.sh yarn start:prod"]
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
