@@ -3,6 +3,6 @@ node_modules
 build
 .wwebjs_cache
 
-data*.pdf
+*.pdf
 
 .env
