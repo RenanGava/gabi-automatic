@@ -1,7 +1,7 @@
 node_modules
 
-./build
-./.wwebjs_cache
+build
+.wwebjs_cache
 
 *.pdf
 
