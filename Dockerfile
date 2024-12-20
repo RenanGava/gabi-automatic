@@ -7,7 +7,8 @@ WORKDIR /app
 # Copiar os arquivos do projeto para o container
 COPY . .
 
-# Atualizar e instalar dependências do sistema
+# Atualizar e instalar dependências do sistema para o
+# whatsapp-web-js e puppeteer
 RUN apt-get update && apt-get install -y \
   ca-certificates \
   fuse3 \
@@ -53,10 +54,18 @@ RUN apt-get update && apt-get install -y \
   wget
 
 # Instalar as dependências do projeto com o Yarn
-RUN yarn install
+# RUN yarn install
+
+# Gerar os dados do Prisma
+# RUN yarn prisma generate
+
+# Migrar as Atualizacoes do banco de dados
+# RUN yarn prisma migrate deploy
 
 # Tornar o script de entrypoint executável
-RUN chmod +x .docker/config/entrypointPrisma.sh
+RUN chmod +x .docker/config/entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "-c", "./.docker/config/entrypoint.sh"]
 
 # Expor a porta usada pela aplicação
 EXPOSE 3000

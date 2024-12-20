@@ -16,10 +16,10 @@ yarn build
 # Rodar a aplicação
 echo "Iniciando a aplicação..."
 #esse comando faz o processo deste script pegar o mesmo ID do processo iniciado no docker
-exec "$@"
 
-# yarn install
-# yarn prisma generate
-# yarn prisma migrate deploy
-# yarn build
+
+# Instalando dependencias
+yarn install
+
 # yarn start:prod
+exec "$@"
