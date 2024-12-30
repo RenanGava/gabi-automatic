@@ -43,12 +43,16 @@ export class MenssageController {
 
   public async handleSendMessages(req: Request, res: Response){
     let { pacients } = req.body
+
+    console.log(pacients);
+    
     const menssageService = new MenssageService();
 
-    const sended = await menssageService.SendMessage(pacients)
-
-
-    res.json({sended: sended});
+    menssageService.SendMessage(pacients).then( () =>{
+      res.json({sended: true});
+    }).catch(err =>{
+      res.send(err)
+    })
 
   }
 }

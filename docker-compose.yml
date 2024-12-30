@@ -6,6 +6,6 @@ services:
     container_name: app-gabi
     # entrypoint: ["/bin/bash", "-c", "./.docker/config/entrypointPrisma.sh yarn start:prod"]
     ports:
-      - "3000:3000"
+      - "8080:8080"
     volumes:
       - .:/app

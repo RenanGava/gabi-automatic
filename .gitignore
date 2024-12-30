@@ -1,8 +1,12 @@
-node_modules/
+**/node_modules/
 
-build/
+**/build/
 .wwebjs_cache/git rm --cached -r .
 
-*.pdf
+**/.wwebjs_cache
+
+**/.pdf
+
+**/pdfs
 
 .env

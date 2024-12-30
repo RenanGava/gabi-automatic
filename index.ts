@@ -21,6 +21,6 @@ app.use("/auth", AuthRouter);
 // WaWeb routes
 app.use("/wweb", menssageRoute);
 
-app.listen(3000, () => {
-  console.log(`Server Is Running Port: ${3000}`);
+app.listen(8080, () => {
+  console.log(`Server Is Running Port: ${8080}`);
 });

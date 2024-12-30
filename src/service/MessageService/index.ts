@@ -96,6 +96,9 @@ export class MenssageService {
     const finished = []
     
     for (const pacient of pacients) {
+
+      console.log("Telefone->", pacient.phoneNumber);
+      console.log("Menssagem->", pacient.message);
       const sended = await this.wwebSendMessage(pacient)
 
       finished.push(sended)
@@ -106,10 +109,12 @@ export class MenssageService {
 
 
   private async wwebSendMessage(pacient: ISendPacient){
+    console.log("Telefone->", pacient.phoneNumber);
+    console.log("Menssagem->", pacient.message);
+    
     if (pacient.phoneNumber != "") {
-      setTimeout(1000)
       const sended = await wweb.sendMessage(pacient.phoneNumber, pacient.message);
-      return sended
+      return 'teste' 
     }
   }
 }

@@ -7,17 +7,9 @@ WORKDIR /app
 USER root
 
 # Copiar os arquivos do projeto para o container
-COPY ./build .
+COPY ../package.json .
+COPY ../build .
 
-COPY ./package.json .
-COPY ./tsconfig.json .
-
-COPY ./prisma .
-
-# Expor a porta usada pela aplicação
-EXPOSE 8080
-
-ENV NODE_ENV='production'
 
 # Atualizar e instalar dependências do sistema para o
 # whatsapp-web-js e puppeteer
@@ -65,26 +57,16 @@ RUN apt-get update && apt-get install -y \
   xdg-utils \
   wget
 
-RUN apt-get install -y chromium
-RUN apt-get install -y xvfb
-# Instalar as dependências do projeto com o Yarn
-RUN yarn install
-
-# Gerar os dados do Prisma
-RUN yarn prisma generate
-
-# Migrar as Atualizacoes do banco de dados
-RUN yarn prisma migrate deploy
-
-RUN node node_modules/puppeteer/install.js
-
-# RUN yarn build
 
 # Tornar o script de entrypoint executável
-# RUN chmod +x .docker/config/entrypoint.sh
+RUN chmod +x .docker/config/entrypoint.sh
 
+ENTRYPOINT ["/bin/bash", "-c", "./.docker/config/entrypoint.sh"]
 
-# ENTRYPOINT ["/bin/bash", "-c", "./.docker/config/entrypoint.sh"]
+# Expor a porta usada pela aplicação
+EXPOSE 8080
+
+RUN yarn install
 
 # Comando padrão (o entrypoint será configurado pelo docker-compose)
-CMD ["xvfb-run", "node", "./index.js"]
+CMD ["yarn", "start:prod"]

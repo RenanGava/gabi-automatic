@@ -1,0 +1,14 @@
+# flyctl launch added from .gitignore
+**/**/node_modules
+
+# **/**/build
+**/.wwebjs_cache/git rm --cached -r .
+
+**/**/.wwebjs_cache
+
+**/**/.pdf
+
+**/**/pdfs
+
+**/.env.example
+fly.toml
