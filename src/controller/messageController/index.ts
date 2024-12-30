@@ -48,11 +48,7 @@ export class MenssageController {
     
     const menssageService = new MenssageService();
 
-    menssageService.SendMessage(pacients).then( () =>{
-      res.json({sended: true});
-    }).catch(err =>{
-      res.send(err)
-    })
-
+    const send = await menssageService.SendMessage(pacients)
+    res.json({sended: true});
   }
 }

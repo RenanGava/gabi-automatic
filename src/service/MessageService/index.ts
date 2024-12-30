@@ -97,8 +97,6 @@ export class MenssageService {
     
     for (const pacient of pacients) {
 
-      console.log("Telefone->", pacient.phoneNumber);
-      console.log("Menssagem->", pacient.message);
       const sended = await this.wwebSendMessage(pacient)
 
       finished.push(sended)
