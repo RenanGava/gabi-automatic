@@ -9,6 +9,7 @@ export class FileService {
   private pdfExtract: PDFExtract;
   private options: PDFExtractOptions;
   private patternsToRemove: RegExp[];
+  private  timeArrival: string
 
   constructor() {
     this.pdfExtract = new PDFExtract();
@@ -37,7 +38,7 @@ export class FileService {
     if (pathFile !== "") {
       const result = await this.pdfExtract.extract(pathFile, this.options);
       const pdfData = await this.formatPdfData(result);
-      return pdfData;
+      return {pdfData, timeArrival: this.timeArrival};
     }
     return;
   }
@@ -45,6 +46,9 @@ export class FileService {
   private async removeLinePatterns(pdfPage: PDFExtractResult) {
     const result = pdfPage.pages.map((page) => {
       return page.content.filter((line) => {
+        if(/^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}:\d{2}$/.test(line.str)){
+          this.timeArrival = line.str
+        }
         return !this.patternsToRemove.some((pattern) => pattern.test(line.str));
       });
     });

@@ -4,19 +4,19 @@ import { passport } from "../../middleware/passport";
 
 const menssageRoute = Router();
 
-menssageRoute.get(
+menssageRoute.post(
   "/conect/wahtsapp",
   passport.authenticate("jwt", { session: false }),
   new MenssageController().handleConect
 );
 
-menssageRoute.get(
+menssageRoute.post(
   "/make/wahtsapp",
   passport.authenticate("jwt", { session: false }),
   new MenssageController().handleMakeMessages
 );
 
-menssageRoute.get(
+menssageRoute.post(
   "/send/wahtsapp",
   passport.authenticate("jwt", { session: false }),
   new MenssageController().handleSendMessages

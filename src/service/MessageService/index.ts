@@ -1,7 +1,4 @@
-import { finished } from "stream";
 import { wweb } from "../wwebService";
-import { setTimeout } from 'timers/promises'
-import { send } from "process";
 
 interface IMessageTemplate {
   name: string;
@@ -35,10 +32,15 @@ interface ISendPacient {
 
 export class MenssageService {
   public async initService(phoneNumber: string): Promise<string> {
-    const connectPhoneNumber = this.formateNumberPhone(phoneNumber);
-    await wweb.initialize();
-    const code = await wweb.requestPairingCode(connectPhoneNumber);
-    return code;
+    try {
+      const connectPhoneNumber = this.formateNumberPhone(phoneNumber);
+      await wweb.initialize();
+      const code = await wweb.requestPairingCode(connectPhoneNumber);
+      
+      return code;
+    } catch (error) {
+      throw new Error('Error on Conect WWEB')
+    }
   }
 
   private formateNumberPhone(phoneNumber: string) {
@@ -54,24 +56,16 @@ export class MenssageService {
     start,
     end,
   }: IMessageTemplate) {
-    return `📢 Aviso Importante
-
-      Olá, ${name}!
-
-      Gostaríamos de informar os detalhes do seu transporte:
-
-      🗺️ Local de Partida: ${start}.
-      📍 Ponto de Referência: ${obs}.
-      🚗 Local de Chegada: ${end}.
-
-      ⏰ Horário: ${timeEnd}.
-
-      Por favor, esteja no local de partida com 10 min de antecedência para evitar atrasos.
-
-      Agradecemos sua atenção!`
+    return `
+    📢 Aviso Importante Olá, ${name}! Detalhes do seu transporte: 
+    🗺️ *Partida*: ${start} (${obs})
+    🚗 *Destino*: ${end}.
+    ⏰ *Horário de Saída*: ${timeStart}.
+    Favor confirmar o uso do transporte com *OK*, Obrigado!
+    `;
   }
 
-  public async makeMessage(pacients: IPacientes[]) {
+  public async makeMessage(pacients: IPacientes[], timesArrival?: string) {
     const menssages: IMakeMessageTemplate[] = [];
 
     for await (const pacient of pacients) {
@@ -83,8 +77,8 @@ export class MenssageService {
           obs: pacient.obs,
           start: pacient.start,
           end: pacient.end,
-          timeEnd: pacient.time,
-          timeStart: pacient.time,
+          timeEnd: pacient.time, // horario do atendimento do paciente
+          timeStart: timesArrival, // horario de saida
         }).toString(),
       });
     }
@@ -93,26 +87,29 @@ export class MenssageService {
   }
 
   public async SendMessage(pacients: ISendPacient[]) {
-    const finished = []
-    
+    const finished = [];
+
     for (const pacient of pacients) {
+      const sended = await this.wwebSendMessage(pacient);
 
-      const sended = await this.wwebSendMessage(pacient)
-
-      finished.push(sended)
+      finished.push(sended);
     }
 
-    return finished.length === pacients.length && (true);
+    return finished.length === pacients.length && true;
   }
 
-
-  private async wwebSendMessage(pacient: ISendPacient){
-    console.log("Telefone->", pacient.phoneNumber);
-    console.log("Menssagem->", pacient.message);
-    
+  private async wwebSendMessage(pacient: ISendPacient) {
     if (pacient.phoneNumber != "") {
-      const sended = await wweb.sendMessage(pacient.phoneNumber, pacient.message);
-      return 'teste' 
+      try {
+        const sended = await wweb.sendMessage(
+          pacient.phoneNumber,
+          pacient.message
+        );
+
+        return "teste";
+      } catch (error) {
+        throw new Error("Missing Message");
+      }
     }
   }
 }

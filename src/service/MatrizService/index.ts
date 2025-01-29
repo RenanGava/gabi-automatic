@@ -13,6 +13,7 @@ export class MatrizService {
   private MatrizFormated: Array<IPacientsPA> = [];
 
   async turnIntoMatriz(list: string[]) {
+    
     var lineMatriz: string[] = [];
     for (let i = 0; i < list.length; i++) {
       const line = this.validateString(list[i]);

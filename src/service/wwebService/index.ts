@@ -8,7 +8,7 @@ import * as path from 'path';
 const wweb = new Client({
     puppeteer: {
         args:  ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: false,
+        headless: true,
         // executablePath: chromiumPath
     },
 })

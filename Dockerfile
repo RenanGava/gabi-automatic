@@ -80,11 +80,6 @@ RUN node node_modules/puppeteer/install.js
 
 # RUN yarn build
 
-# Tornar o script de entrypoint executável
-# RUN chmod +x .docker/config/entrypoint.sh
-
-
-# ENTRYPOINT ["/bin/bash", "-c", "./.docker/config/entrypoint.sh"]
 
 # Comando padrão (o entrypoint será configurado pelo docker-compose)
 CMD ["xvfb-run", "node", "./index.js"]

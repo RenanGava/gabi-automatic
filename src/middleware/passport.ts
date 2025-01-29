@@ -10,7 +10,6 @@ const passport = new Passport();
 // metodo login para gerar jwt
 passport.use(configPassPortLocal);
 
-
 // metodo jwt
 passport.use(configPassPortJWT);
 

@@ -22,7 +22,8 @@ interface IMessageTemplate{
 
 export class MenssageController {
   public async handleConect(req: Request, res: Response) {
-    const { phoneNumber } = req.body;
+    const {phoneNumber} = req.body;
+    
     const menssageService = new MenssageService();
     const codeConection = await menssageService.initService(phoneNumber);
 
@@ -34,21 +35,24 @@ export class MenssageController {
 
   public async handleMakeMessages(req: Request, res: Response) {
     let pacients = req.body.pacients as IPacientes[]
+    const {timesArrival} = req.body
+    
     const menssageService = new MenssageService();
 
-    const menssages = await menssageService.makeMessage(pacients)
+    const menssages = await menssageService.makeMessage(pacients, timesArrival)
 
-    res.json(menssages);
+    res.status(200).json(menssages);
+    return
   }
 
   public async handleSendMessages(req: Request, res: Response){
     let { pacients } = req.body
 
-    console.log(pacients);
     
     const menssageService = new MenssageService();
 
     const send = await menssageService.SendMessage(pacients)
-    res.json({sended: true});
+    res.status(200).json({sended: true});
+    return
   }
 }

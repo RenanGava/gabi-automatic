@@ -11,6 +11,6 @@ const ExtractJwtOptions = {
 export const configPassPortJWT = new JWTStrategy(
   { ...ExtractJwtOptions},
   (payload, done) => {
-    done(false, payload)
-  }
+    return done(false, payload)
+  },
 );

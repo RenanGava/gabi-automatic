@@ -13,6 +13,8 @@ export default {
                 // para metro definido no método.
                 destination: resolve(__dirname, '..', '..', folder),
                 filename: (request, file, callback) => {
+                    
+                    
                     const fileName = `${cuid()}-${file.originalname}`
 
                     return callback(null, fileName)
